@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>专注计时</title>
+<style>
+:root{
+    --bg:#020617;
+    --panel:#111827;
+    --text:#e5e7eb;
+    --sub:#a5b4fc;
+    --list:#0b1220;
+    --total:#0c1426;
+}
+.light{
+    --bg:#fafafa;
+    --panel:#ffffff;
+    --text:#111827;
+    --sub:#2563eb;
+    --list:#f1f5f9;
+    --total:#e5e7eb;
+}
+
+body{
+    font-family:"Microsoft YaHei";
+    background:var(--bg);
+    color:var(--text);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+.box{
+    background:var(--panel);
+    padding:35px 55px;
+    border-radius:22px;
+    box-shadow:0 0 30px rgba(0,0,0,.35);
+    width:500px;
+}
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+.toggle-btn{
+    padding:6px 12px;
+    border-radius:10px;
+    background:#374151;
+    border:none;
+    color:#fff;
+    cursor:pointer;
+}
+.light .toggle-btn{ background:#cbd5e1; color:#000;}
+
+.section-title{
+    margin-top:14px;
+    font-size:15px;
+    color:var(--sub);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* 清空按钮 */
+.clear-btn{
+    padding:4px 10px;
+    border-radius:8px;
+    background:#ef4444;
+    border:none;
+    color:#000;
+    cursor:pointer;
+    font-size:12px;
+}
+
+.time{
+    font-size:50px;
+    text-align:center;
+}
+.counter-big{
+    font-size:50px;
+    text-align:center;
+    margin:5px 0 15px;
+}
+button{
+    padding:10px 18px;
+    margin:6px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    cursor:pointer;
+}
+.start{background:#22c55e;color:#000;}
+.pause{background:#facc15;color:#000;}
+.reset{background:#f87171;color:#000;}
+
+.total-box{
+    margin-top:10px;
+    background:var(--total);
+    padding:12px 14px;
+    border-radius:12px;
+    font-size:16px;
+}
+.list{
+    text-align:left;
+    max-height:180px;
+    overflow-y:auto;
+    margin-top:10px;
+    background:var(--list);
+    padding:10px;
+    border-radius:10px;
+    font-size:14px;
+}
+.author-info {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 14px;
+    color: var(--sub);
+    text-align: center;
+    padding: 5px 0; 
+    background-color: transparent;
+    margin: 0;
+}
+
+</style>
+</head>
+<body>
+
+<div class="box">
+
+    <div class="top-bar">
+        <button class="toggle-btn" onclick="toggleTheme()" id="themeBtn">🌙 深色模式</button>
+        <button class="toggle-btn" onclick="toggleLang()" id="langBtn">English</button>
+    </div>
+
+    <div class="section-title" id="t-now">当前时间</div>
+    <div id="clock" class="time">--:--:--</div>
+
+    <div class="section-title" id="t-focus">当前专注计时</div>
+    <div id="focus" class="counter-big">00:00:00</div>
+
+    <div style="text-align:center;margin-bottom:5px;">
+        <button class="start" onclick="start()" id="b-start">开始</button>
+        <button class="pause" onclick="pause()" id="b-pause">暂停</button>
+        <button class="reset" onclick="finish()" id="b-finish">结束并保存</button>
+    </div>
+
+    <!-- 历史记录 + 清空 -->
+    <div class="section-title">
+        <span id="t-history">历史记录</span>
+        <button class="clear-btn" onclick="clearHistory()" id="clearBtn">清空</button>
+    </div>
+
+    <div class="total-box">
+        <span id="t-total">累计总专注时长：</span>
+        <span id="total">00:00:00</span>
+    </div>
+
+    <div class="list" id="history">暂无记录</div>
+
+</div>
+
+<div class="author-info">
+    <p>contact me via longtao.huang@outlook.com</p>
+</div>
+
+<script>
+// ---------- 语言 ----------
+let lang = localStorage.getItem("lang") || "cn";
+
+const text = {
+    cn:{
+        now:"当前时间",
+        focus:"当前专注计时",
+        history:"历史记录",
+        total:"累计总专注时长：",
+        start:"开始",
+        pause:"暂停",
+        finish:"结束并保存",
+        none:"暂无记录",
+        themeLight:"🌞 浅色模式",
+        themeDark:"🌙 深色模式",
+        langBtn:"English",
+        clear:"清空"
+    },
+    en:{
+        now:"Current Time",
+        focus:"Focus Timer",
+        history:"History Records",
+        total:"Total Focus Time: ",
+        start:"Start",
+        pause:"Pause",
+        finish:"Finish & Save",
+        none:"No Records",
+        themeLight:"🌞 Light Mode",
+        themeDark:"🌙 Dark Mode",
+        langBtn:"中文",
+        clear:"Clear"
+    }
+};
+
+function applyLang(){
+    const t = text[lang];
+    document.getElementById("t-now").innerText=t.now;
+    document.getElementById("t-focus").innerText=t.focus;
+    document.getElementById("t-history").innerText=t.history;
+    document.getElementById("t-total").innerText=t.total;
+    document.getElementById("b-start").innerText=t.start;
+    document.getElementById("b-pause").innerText=t.pause;
+    document.getElementById("b-finish").innerText=t.finish;
+    document.getElementById("langBtn").innerText=t.langBtn;
+    document.getElementById("clearBtn").innerText=t.clear;
+    renderHistory();
+
+    applyTheme();
+}
+function toggleLang(){
+    lang = (lang==="cn"?"en":"cn");
+    localStorage.setItem("lang",lang);
+    applyLang();
+}
+
+// ---------- 主题 ----------
+let theme = localStorage.getItem("theme") || "dark";
+function applyTheme(){
+    if(theme==="light") document.body.classList.add("light");
+    else document.body.classList.remove("light");
+
+    document.getElementById("themeBtn").innerText =
+        theme==="light" ? text[lang].themeDark : text[lang].themeLight;
+}
+function toggleTheme(){
+    theme = (theme==="dark"?"light":"dark");
+    localStorage.setItem("theme",theme);
+    applyTheme();
+}
+
+// ---------- 时钟 ----------
+function updateClock(){
+    document.getElementById("clock").innerText =
+        new Date().toLocaleTimeString();
+}
+setInterval(updateClock,1000);
+updateClock();
+
+// ---------- 功能 ----------
+function format(s){
+    let h = String(Math.floor(s/3600)).padStart(2,"0");
+    let m = String(Math.floor((s%3600)/60)).padStart(2,"0");
+    let sec = String(s%60).padStart(2,"0");
+    return `${h}:${m}:${sec}`;
+}
+
+let focusSec = 0;
+let timer = null;
+
+let totalSec = Number(localStorage.getItem("totalAll")) || 0;
+document.getElementById("total").innerText = format(totalSec);
+
+let sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+
+function start(){
+    if(timer) return;
+    timer=setInterval(()=>{
+        focusSec++;
+        document.getElementById("focus").innerText=format(focusSec);
+    },1000);
+}
+function pause(){
+    clearInterval(timer);
+    timer=null;
+}
+function finish(){
+    pause();
+    if(focusSec===0) return;
+    totalSec += focusSec;
+    localStorage.setItem("totalAll",totalSec);
+    document.getElementById("total").innerText=format(totalSec);
+
+    sessions.push({
+        duration:focusSec,
+        time:new Date().toLocaleString()
+    });
+    localStorage.setItem("sessions",JSON.stringify(sessions));
+    focusSec=0;
+    document.getElementById("focus").innerText="00:00:00";
+    renderHistory();
+}
+
+function renderHistory(){
+    const box=document.getElementById("history");
+    if(sessions.length===0){
+        box.innerHTML=text[lang].none;
+        return;
+    }
+    box.innerHTML=sessions.map(s =>
+        `📌 ${s.time} —— ${format(s.duration)}`
+    ).join("<br>");
+}
+
+// ---------- 清空 ----------
+function clearHistory(){
+    if(!confirm(lang==="cn" ? "确定清空所有历史与累计时长吗？" : "Clear all history and total time?"))
+        return;
+    sessions = [];
+    totalSec = 0;
+    localStorage.removeItem("sessions");
+    localStorage.removeItem("totalAll");
+    document.getElementById("total").innerText="00:00:00";
+    renderHistory();
+}
+
+// ---------- 初始化 ----------
+applyLang();
+applyTheme();
+renderHistory();
+</script>
+
+</body>
+</html>
