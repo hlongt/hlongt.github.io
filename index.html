@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1024, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>hlt</title>
     <style>
         body, html {
@@ -63,30 +63,24 @@
             transform: translateY(2px); 
         }
 
-        /* 响应式设计：调整移动设备上的布局 */
+        /* 移动端样式强制为桌面端样式 */
         @media (max-width: 600px) {
+            html, body {
+                width: 1024px; /* 强制设置宽度为桌面端大小 */
+                overflow-x: hidden; /* 禁止横向滚动 */
+            }
             p {
-                font-size: 18px; 
+                font-size: 20px; /* 保持桌面端字体大小 */
             }
 
             a {
-                font-size: 16px;
+                font-size: 14px; /* 保持桌面端字体大小 */
             }
 
             .container {
-                padding: 20px; 
-            }
-        }
-
-        /* 更小屏幕的优化 */
-        @media (max-width: 400px) {
-            p {
-                font-size: 16px;
-            }
-
-            a {
-                font-size: 14px;
-                padding: 8px 16px;
+                padding: 50px;
+                max-width: 800px; /* 固定容器最大宽度 */
+                width: 90%;
             }
         }
 
@@ -103,5 +97,3 @@
     </div>
 </body>
 </html>
-
-
