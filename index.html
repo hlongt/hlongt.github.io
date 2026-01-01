@@ -16,24 +16,24 @@
             background: linear-gradient(to bottom right, #f0f0f5, #dde1f0); 
             color: #333;
             position: relative; 
-            font-size: 16px; /* 默认字体大小 */
+            font-size: 4vw; /* 用vw单位来调整字体大小 */
         }
 
         .container {
             text-align: left; 
-            padding: 3rem;
+            padding: 5vw; /* 用vw来调整内边距 */
             background: white;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             border-radius: 24px;
-            max-width: 800px; 
+            max-width: 100vw; /* 确保宽度不超出视口宽度 */
             width: 90%; 
             box-sizing: border-box;
-            margin: 20px;
-            overflow: hidden; /* 确保内容不会溢出 */
+            margin: 5vw; /* 用vw来调整外边距 */
+            overflow: hidden; /* 确保内容不溢出 */
         }
 
         p {
-            font-size: 1.25rem; /* 使用rem单位 */
+            font-size: 1.5rem; /* 使用rem单位来适配字体大小 */
             line-height: 1.6;
             font-weight: 400;
             color: #555;
@@ -43,16 +43,16 @@
 
         a {
             display: block; 
-            padding: 0.5rem 1rem;
+            padding: 1rem 2rem;
             background-color: #0078d4; 
             color: white;
             text-decoration: none;
             border-radius: 12px;
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: 500;
             transition: background-color 0.3s, box-shadow 0.3s; 
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 1rem auto; 
+            margin: 2rem auto; 
             width: fit-content; 
         }
 
@@ -68,19 +68,19 @@
         /* 响应式设计 */
         @media (max-width: 600px) {
             body {
-                font-size: 14px; /* 小屏幕上缩小字体 */
+                font-size: 5vw; /* 调整手机端字体大小 */
             }
             .container {
-                padding: 1.5rem; /* 减少容器内边距 */
-                width: 100%; /* 确保宽度自适应 */
-                max-width: 100%; /* 适应小屏幕宽度 */
-                margin: 10px; /* 减少容器外边距 */
+                padding: 8vw; /* 调整容器内边距 */
+                width: 80vw; /* 设置容器宽度为80%的视口宽度 */
+                max-width: 80vw; /* 防止超出视口宽度 */
+                margin: 5vw; /* 减小容器外边距 */
             }
             p {
-                font-size: 1rem; /* 缩小文本 */
+                font-size: 1.2rem; /* 调整文本大小 */
             }
             a {
-                font-size: 0.875rem; /* 调整链接按钮的字体 */
+                font-size: 1rem; /* 调整链接按钮字体 */
             }
         }
     </style>
