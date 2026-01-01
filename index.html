@@ -13,7 +13,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            background: linear-gradient(135deg, #f8f8f8, #e1e1e1);
+            background: #f0f0f5; /* 浅灰色背景，苹果风格 */
             color: #333;
         }
 
@@ -21,47 +21,45 @@
             text-align: center;
             padding: 40px;
             background: white;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             border-radius: 24px;
             max-width: 500px; /* 限制最大宽度 */
             width: 100%; /* 保证容器宽度自适应 */
             box-sizing: border-box;
-            margin: 20px; /* 增加外边距，避免页面元素挤在一起 */
         }
 
         p {
             font-size: 28px;
             font-weight: 500;
             color: #333;
-            margin-bottom: 20px; /* 增加段落与按钮的间距 */
+            margin-bottom: 24px; /* 增加段落与按钮的间距 */
         }
 
         a {
             display: inline-block;
             padding: 12px 24px;
-            background-color: #0078d4;
+            background-color: #0078d4; /* 苹果经典蓝色 */
             color: white;
             text-decoration: none;
             border-radius: 12px;
             font-size: 18px;
             font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, box-shadow 0.3s; /* 平滑过渡效果 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         a:hover {
-            background-color: #005ba1;
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
+            background-color: #005ba1; /* 悬停时的蓝色 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         a:active {
-            transform: translateY(2px);
+            transform: translateY(2px); /* 点击时的小阴影效果 */
         }
 
         @media (max-width: 600px) {
             p {
-                font-size: 22px;
+                font-size: 22px; /* 移动设备上的字体大小调整 */
             }
 
             a {
@@ -73,7 +71,7 @@
 </head>
 <body>
     <div class="container">
-        <p>hey, here 2026🐎 </p>
+        <p>hey here 2026 🐎</p>
         <a href="https://hlongt.github.io/focus-timer/">点击这里访问专注计时🍅</a>
     </div>
 </body>
