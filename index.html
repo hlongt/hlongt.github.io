@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1024, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>hlt</title>
     <style>
         body, html {
@@ -16,11 +16,12 @@
             background: linear-gradient(to bottom right, #f0f0f5, #dde1f0); 
             color: #333;
             position: relative; 
+            font-size: 16px; /* 默认字体大小 */
         }
 
         .container {
             text-align: left; 
-            padding: 50px;
+            padding: 3rem;
             background: white;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             border-radius: 24px;
@@ -31,26 +32,26 @@
         }
 
         p {
-            font-size: 20px;
-            line-height: 1.4;
+            font-size: 1.25rem; /* 使用rem单位 */
+            line-height: 1.6;
             font-weight: 400;
             color: #555;
-            margin-bottom: 24px;
+            margin-bottom: 1.5rem;
             white-space: pre; 
         }
 
         a {
             display: block; 
-            padding: 10px 20px;
+            padding: 0.5rem 1rem;
             background-color: #0078d4; 
             color: white;
             text-decoration: none;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 1rem;
             font-weight: 500;
             transition: background-color 0.3s, box-shadow 0.3s; 
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 20px auto; 
+            margin: 1rem auto; 
             width: fit-content; 
         }
 
@@ -63,6 +64,21 @@
             transform: translateY(2px); 
         }
 
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px; /* 小屏幕上缩小字体 */
+            }
+            .container {
+                padding: 2rem; /* 减少容器内边距 */
+            }
+            p {
+                font-size: 1rem; /* 缩小文本 */
+            }
+            a {
+                font-size: 0.875rem; /* 调整链接按钮的字体 */
+            }
+        }
     </style>
 </head>
 <body>
@@ -76,4 +92,3 @@
     </div>
 </body>
 </html>
-
