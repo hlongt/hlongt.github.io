@@ -8,39 +8,46 @@
         body, html {
             height: 100%;
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            font-family: 'Georgia', serif;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            background: #f0f0f5;
+            background: linear-gradient(to bottom right, #f0f0f5, #dde1f0); /* 淡雅渐变背景 */
             color: #333;
             position: relative; 
         }
 
         .container {
             text-align: center;
-            padding: 100px;
+            padding: 50px;
             background: white;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             border-radius: 24px;
             max-width: 800px; 
             width: 90%; 
             box-sizing: border-box;
-            margin: 20px; 
+            margin: 20px;
         }
 
         p {
-            font-size: 24px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 24px; 
-            white-space: nowrap;
+            font-size: 20px;
+            line-height: 1.8; /* 增加行间距让文本更易阅读 */
+            font-weight: 400;
+            color: #555;
+            margin-bottom: 24px;
+            white-space: pre-line; /* 保持换行格式 */
+        }
+
+        p span {
+            display: block; /* 让每行诗歌呈现块状布局 */
+            margin-bottom: 16px;
+            font-style: italic;
         }
 
         a {
             display: inline-block;
-            padding: 10px 10px;
+            padding: 10px 20px;
             background-color: #0078d4; 
             color: white;
             text-decoration: none;
@@ -49,7 +56,6 @@
             font-weight: 500;
             transition: background-color 0.3s, box-shadow 0.3s; 
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            white-space: nowrap;
         }
 
         a:hover {
@@ -64,23 +70,22 @@
         /* 响应式设计：调整移动设备上的布局 */
         @media (max-width: 600px) {
             p {
-                font-size: 24px; 
-                margin-bottom: 20px;
+                font-size: 18px; 
             }
 
             a {
                 font-size: 16px;
-                padding: 10px 20px;
             }
 
             .container {
                 padding: 20px; 
+            }
         }
 
-        /* 更小屏幕的优化，比如小型手机或竖屏模式 */
+        /* 更小屏幕的优化 */
         @media (max-width: 400px) {
             p {
-                font-size: 20px;
+                font-size: 16px;
             }
 
             a {
@@ -93,18 +98,17 @@
 </head>
 <body>
     <div class="container">
-        <p>Hey Here 2026 🐎</p>
+        <p>
+            <span>你走过的路，或许平缓，或许漫长，</span>
+            <span>那些风吹过的日子，有的留在记忆里，有的随风远去，</span>
+            <span>有些答案，你已找到，</span>
+            <span>有些心愿，还在路上，</span>
+            <span>不管快慢，都作数，</span>
+            <span>都是时间温柔的回答，</span>
+            <span>交给时光的一切，都是没办法遣返的，</span>
+            <span>这也是人生的逻辑~</span>
+        </p>
         <a href="https://hlongt.github.io/focus-timer/">点击这里访问专注计时🍅</a>
     </div>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
