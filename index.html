@@ -29,6 +29,7 @@
             width: 90%; 
             box-sizing: border-box;
             margin: 20px;
+            overflow: hidden; /* 确保内容不会溢出 */
         }
 
         p {
@@ -70,7 +71,10 @@
                 font-size: 14px; /* 小屏幕上缩小字体 */
             }
             .container {
-                padding: 2rem; /* 减少容器内边距 */
+                padding: 1.5rem; /* 减少容器内边距 */
+                width: 100%; /* 确保宽度自适应 */
+                max-width: 100%; /* 适应小屏幕宽度 */
+                margin: 10px; /* 减少容器外边距 */
             }
             p {
                 font-size: 1rem; /* 缩小文本 */
