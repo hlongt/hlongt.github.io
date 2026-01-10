@@ -3,50 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>hlt</title>
+    <title>欢迎</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; 
-            font-family: 'Georgia', serif; background-color: #f0f0f5; 
+            font-family: 'Georgia', "Source Han Serif CN", "Songti SC", serif; 
+            background-color: #f0f0f5; 
             color: #333; display: flex; justify-content: center; align-items: center;
         }
+
         .container {
-            padding: 2.5rem 2rem; background: white;
+            padding: clamp(1.5rem, 5vw, 3rem); 
+            background: white;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border-radius: 24px; width: 88%; max-width: 600px;
+            border-radius: 24px; 
+            width: 90%; 
+            max-width: 800px;
             box-sizing: border-box;
+            /* 关键：如果内容依然超出，允许内部平滑滚动，不破坏布局 */
+            overflow-x: auto; 
         }
-        p {
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            line-height: 1.8; color: #555; margin-bottom: 1.5rem;
-            white-space: pre-wrap; 
-            word-wrap: break-word;
+
+        .poem-box {
+            /* 恢复你的诗歌格式：严格遵守原文分行和空格 */
+            white-space: pre; 
+            /* 动态字号：根据屏幕宽度自动缩放，保证在手机上也能尽量一屏显示 */
+            font-size: clamp(0.85rem, 3.2vw, 1.25rem); 
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 2rem;
+            display: inline-block; /* 配合 overflow 居中 */
+            text-align: left;
         }
+
         a {
-            display: block; padding: 1rem 2rem;
-            background-color: #0078d4; color: white;
-            text-decoration: none; border-radius: 14px;
-            font-size: 1rem; font-weight: 500; text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 12px rgba(0, 120, 212, 0.3);
-            margin: 2.5rem auto 0; width: fit-content;
-            min-width: 140px;
+            display: block; 
+            padding: 0.8rem 1.5rem;
+            background-color: #0078d4; 
+            color: white;
+            text-decoration: none; 
+            border-radius: 12px;
+            font-size: 1rem; 
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 120, 212, 0.2);
+            margin: 1rem auto 0; 
+            width: fit-content;
+            text-align: center;
         }
-        a:active { transform: scale(0.96); opacity: 0.9; }
-        
-        @media (max-width: 400px) {
-            .container { padding: 1.5rem; }
-            a { width: 100%; }
+
+        a:hover {
+            background-color: #005ba1;
+            transform: translateY(-2px);
+        }
+
+        /* 隐藏滚动条样式（可选，让页面更整洁） */
+        .container::-webkit-scrollbar { height: 0; }
+
+        @media (max-width: 480px) {
+            .container { padding: 1.2rem; }
+            /* 在极小屏下微调间距 */
+            .poem-box { line-height: 2; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <p>“ 你走过的路，或许平缓，或许漫长</p>
-        <p>  那些风吹过的日子，有的留在记忆里，有的随风远去</p>
-        <p>  有些答案，你已找到，有些心愿，还在路上</p>
-        <p>  不管快慢，每一步都作数，都是时间温柔的回答</p>
-        <p>  交给时光的一切，都是没办法遣返的，这也是人生的逻辑   ”</p>
+        <div class="poem-box">“ 你走过的路，或许平缓，或许漫长
+  那些风吹过的日子，有的留在记忆里，有的随风远去
+  有些答案，你已找到，有些心愿，还在路上
+  不管快慢，每一步都作数，都是时间温柔的回答
+  交给时光的一切，都是没办法遣返的，这也是人生的逻辑   ”</div>
+        
         <a href="https://hlongt.github.io/focus-timer/">开始专注 🍅</a>
     </div>
 </body>
