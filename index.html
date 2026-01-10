@@ -1,0 +1,53 @@
+<!DOCTYPE html> 
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>hlt</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0; height: 100%; 
+            font-family: 'Georgia', serif; background-color: #f0f0f5; 
+            color: #333; display: flex; justify-content: center; align-items: center;
+        }
+        .container {
+            padding: 2.5rem 2rem; background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 24px; width: 88%; max-width: 600px;
+            box-sizing: border-box;
+        }
+        p {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            line-height: 1.8; color: #555; margin-bottom: 1.5rem;
+            white-space: pre-wrap; 
+            word-wrap: break-word;
+        }
+        a {
+            display: block; padding: 1rem 2rem;
+            background-color: #0078d4; color: white;
+            text-decoration: none; border-radius: 14px;
+            font-size: 1rem; font-weight: 500; text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 120, 212, 0.3);
+            margin: 2.5rem auto 0; width: fit-content;
+            min-width: 140px;
+        }
+        a:active { transform: scale(0.96); opacity: 0.9; }
+        
+        @media (max-width: 400px) {
+            .container { padding: 1.5rem; }
+            a { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>“ 你走过的路，或许平缓，或许漫长</p>
+        <p>  那些风吹过的日子，有的留在记忆里，有的随风远去</p>
+        <p>  有些答案，你已找到，有些心愿，还在路上</p>
+        <p>  不管快慢，每一步都作数，都是时间温柔的回答</p>
+        <p>  交给时光的一切，都是没办法遣返的，这也是人生的逻辑   ”</p>
+        <a href="https://hlongt.github.io/focus-timer/">开始专注 🍅</a>
+    </div>
+</body>
+</html>
