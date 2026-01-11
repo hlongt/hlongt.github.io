@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hlt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+
+        .bg-decoration {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .decoration-1 {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #a8c0ff, #6a93cb);
+        }
+        
+        .decoration-2 {
+            bottom: 15%;
+            right: 7%;
+            width: 200px;
+            height: 200px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background: linear-gradient(45deg, #ffd89b, #ff9a8b);
+        }
+        
+        .decoration-3 {
+            top: 50%;
+            right: 10%;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #c2e59c, #64b3f4);
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 40px 50px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #6a93cb, transparent);
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #5d7790;
+            font-weight: 300;
+        }
+        
+
+        .poem-container {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        
+        .poem-line {
+            font-size: 1.35rem;
+            line-height: 2.2;
+            margin-bottom: 0.5em;
+            padding-left: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+            color: #3a506b;
+        }
+        
+        .poem-line::before {
+            content: '❝';
+            position: absolute;
+            left: -10px;
+            color: #a8c0ff;
+            opacity: 0.7;
+            font-size: 1.2rem;
+        }
+        
+        .poem-line:hover {
+            transform: translateX(10px);
+            color: #2d374b;
+        }
+        
+        .poem-line:hover::before {
+            opacity: 1;
+            color: #6a93cb;
+        }
+        
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 25px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .poem-line {
+                font-size: 1.2rem;
+                line-height: 2.0;
+            }
+            
+            .decoration-1, .decoration-2, .decoration-3 {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 25px 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .poem-line {
+                font-size: 1.1rem;
+                line-height: 1.9;
+                padding-left: 15px;
+            }
+        }
+        
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #5d7790;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid rgba(106, 147, 203, 0.2);
+            width: 100%;
+        }
+        
+        .footer p {
+            margin-bottom: 5px;
+        }
+        
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            5% { transform: scale(1.1); }
+            10% { transform: scale(1); }
+            15% { transform: scale(1.1); }
+            20% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #6a93cb;
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(106, 147, 203, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: #5d83b8;
+            transform: rotate(30deg);
+        }
+        
+
+        body.dark-theme {
+            background: linear-gradient(135deg, #1c2541 0%, #0b132b 100%);
+            color: #e0e0e0;
+        }
+        
+        body.dark-theme .container {
+            background-color: rgba(28, 37, 65, 0.92);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        body.dark-theme .header h1 {
+            color: #d0d9f0;
+        }
+        
+        body.dark-theme .subtitle {
+            color: #a8b5d0;
+        }
+        
+        body.dark-theme .poem-line {
+            color: #c5d0e6;
+        }
+        
+        body.dark-theme .poem-line:hover {
+            color: #e0e8ff;
+        }
+        
+        body.dark-theme .footer {
+            color: #a8b5d0;
+            border-top-color: rgba(168, 192, 255, 0.2);
+        }
+        
+        body.dark-theme .theme-toggle {
+            background: #3a506b;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        body.dark-theme .decoration-1 {
+            background: radial-gradient(circle, #5a72a5, #3a506b);
+        }
+        
+        body.dark-theme .decoration-2 {
+            background: linear-gradient(45deg, #a87b5b, #8a5a4a);
+        }
+        
+        body.dark-theme .decoration-3 {
+            background: radial-gradient(circle, #4a6b3a, #3a506b);
+        }
+
+
+        .focus-button {
+            background: linear-gradient(90deg, rgba(106,147,203,0.14), rgba(106,147,203,0.06));
+            color: #2d374b;
+            border: 1px solid rgba(106,147,203,0.18);
+            border-radius: 999px;
+            padding: 8px 20px;
+            font-size: 1.15rem;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            margin: 0 auto 30px;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 18px rgba(106,147,203,0.08);
+        }
+
+        .focus-button:hover {
+            transform: translateX(10px); 
+            color: #15324a;
+            box-shadow: 0 10px 30px rgba(106,147,203,0.12);
+            background: linear-gradient(90deg, rgba(106,147,203,0.18), rgba(106,147,203,0.08));
+        }
+
+        .focus-button:active {
+            transform: translateX(10px) translateY(1px) scale(0.995);
+        }
+
+        .focus-button:focus-visible {
+            outline: 3px solid rgba(106,147,203,0.22);
+            outline-offset: 4px;
+        }
+
+        body.dark-theme .focus-button {
+            background: linear-gradient(90deg, rgba(97,116,152,0.12), rgba(58,80,107,0.04));
+            color: #c5d0e6;
+            border: 1px solid rgba(97,116,152,0.18);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+        }
+
+        body.dark-theme .focus-button:hover {
+            color: #e0e8ff;
+            background: linear-gradient(90deg, rgba(97,116,152,0.2), rgba(58,80,107,0.08));
+            box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+            transform: translateX(10px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-decoration decoration-1"></div>
+    <div class="bg-decoration decoration-2"></div>
+    <div class="bg-decoration decoration-3"></div>
+    
+
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <div class="container">
+
+
+        <button class="focus-button" aria-label="开始专注" onclick="window.open('https://hlongt.github.io/focus-timer', '_self');">
+            开始专注🍅
+        </button>
+
+        <div class="poem-container">
+            <div class="poem-line">你走过的路，或许平缓，或许漫长</div>
+            <div class="poem-line">那些风吹过的日子，有的留在记忆里，有的随风远去</div>
+            <div class="poem-line">有些答案，你已找到，有些心愿，还在路上</div>
+            <div class="poem-line">不管快慢，每一步都作数，都是时间温柔的回答</div>
+            <div class="poem-line">交给时光的一切，都是没办法遣返的，这也是人生的逻辑</div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; <script>document.write(new Date().getFullYear());</script> hlt</p>
+            <p>📫Contact me via email to longtao.huang@outlook.com</p>
+        </div>
+    </div>
+    
+    <script>
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            
+            if (document.body.classList.contains('dark-theme')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+        
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const poemLines = document.querySelectorAll('.poem-line');
+            
+            poemLines.forEach((line, index) => {
+
+                line.style.animationDelay = `${index * 0.2}s`;
+                
+
+                line.addEventListener('click', () => {
+                    line.style.transform = 'translateX(15px)';
+                    line.style.color = document.body.classList.contains('dark-theme') ? '#a8c0ff' : '#6a93cb';
+                    
+                    setTimeout(() => {
+                        line.style.transform = '';
+                        line.style.color = '';
+                    }, 500);
+                });
+            });
+            
+
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+    </script>
+</body>
+</html>
