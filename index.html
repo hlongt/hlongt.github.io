@@ -4,18 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Longtao Huang</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        /* 页面整体风格 */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
+            background-color: #fff; 
+        }
+
+        /* 头部样式 */
         header { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-        h1 { margin: 0; font-size: 2.2rem; }
-        .affiliation { color: #666; font-size: 1.1rem; margin: 5px 0; }
+        h1 { margin: 0; font-size: 2.2rem; color: #000; }
+        .affiliation { font-size: 1.1rem; color: #666; margin-top: 5px; }
         .links { margin-top: 15px; }
         .links a { margin-right: 15px; color: #007bff; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+        .links a:hover { text-decoration: underline; }
+
+        /* 章节通用样式 */
         section { margin-top: 40px; }
-        h2 { border-left: 5px solid #333; padding-left: 15px; font-size: 1.5rem; margin-bottom: 20px; }
-        .item { margin-bottom: 10px; font-size: 1.05rem; }
-        .pub-title { font-weight: bold; display: block; }
-        footer { margin-top: 60px; font-size: 0.85rem; color: #999; text-align: center; }
+        h2 { border-left: 5px solid #333; padding-left: 15px; font-size: 1.5rem; margin-bottom: 20px; color: #222; }
+
+        /* 列表项样式 */
+        .item { margin-bottom: 12px; font-size: 1.05rem; }
+        .pub-title { font-weight: bold; display: block; color: #000; }
+        .pub-venue { color: #666; font-style: italic; }
+
+        /* 页脚 */
+        footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid #eee; font-size: 0.85rem; color: #999; text-align: center; }
+        
+        @media (max-width: 600px) {
+            body { padding: 20px 15px; }
+            h1 { font-size: 1.8rem; }
+        }
     </style>
 </head>
 <body>
@@ -47,24 +73,26 @@
 </section>
 
 <footer>
-    <p>&copy; 2026 <span id="footer-name"></span>. Powered by GitHub Pages.</p>
+    <p>&copy; 2026 <span id="footer-name"></span>. Last updated: Feb 2026.</p>
 </footer>
 
 <script>
     fetch('data.json')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error('Data not found');
+            return res.json();
+        })
         .then(data => {
-            // 1. 基础信息渲染
+            // 1. 基础信息
             document.getElementById('name-display').textContent = `${data.name} (${data.englishName})`;
             document.getElementById('affiliation-display').textContent = data.affiliation;
             document.getElementById('bio-display').textContent = data.bio;
             document.getElementById('footer-name').textContent = data.englishName;
 
-            // 2. 联系链接渲染 (增加隐藏逻辑)
+            // 2. 联系链接渲染 (自动隐藏无效链接)
             const linksContainer = document.getElementById('contact-links');
             let linksHtml = '';
             if (data.email) linksHtml += `<a href="mailto:${data.email}">Email</a>`;
-            // 只有当 scholar 存在且不为空/不为 # 时才显示
             if (data.scholar && data.scholar !== "" && data.scholar !== "#") {
                 linksHtml += `<a href="${data.scholar}" target="_blank">Google Scholar</a>`;
             }
@@ -89,23 +117,23 @@
                 }
             };
 
-            // 4. 执行渲染 (修正了之前导致 undefined 的逻辑)
-            // 教育经历：直接显示字符串内容
+            // 4. 执行渲染逻辑
+            // 教育经历：适配你的字符串数组格式
             renderList(data.education, 'edu-list', 'edu-section', (item) => `• ${item}`);
 
-            // 论文：按照对象格式显示
+            // 论文：适配对象数组格式
             renderList(data.publications, 'pub-list', 'pub-section', (pub) => `
                 <span class="pub-title">${pub.title}</span>
                 <span>${pub.authors}</span><br>
-                <em style="color:#666">${pub.venue}</em>
+                <span class="pub-venue">${pub.venue}</span>
             `);
 
             // 获奖情况
             renderList(data.awards, 'award-list', 'award-section', (award) => `• ${award}`);
         })
         .catch(err => {
-            console.error("加载数据失败:", err);
-            document.getElementById('name-display').textContent = "Error loading content.";
+            console.error(err);
+            document.getElementById('name-display').textContent = "Content Error";
         });
 </script>
 
