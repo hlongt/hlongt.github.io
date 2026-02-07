@@ -1,43 +1,33 @@
 const fs = require('fs');
 const JavaScriptObfuscator = require('javascript-obfuscator');
 
-// 1. 读取原始文件
+// 读取源码
 const dataJson = fs.readFileSync('data.json', 'utf8');
 let html = fs.readFileSync('index.html', 'utf8');
 
-// 2. 将 fetch('data.json') 逻辑替换为直接注入数据
-// 我们匹配脚本中的 fetch 部分并将其替换为变量定义
-const injection = `
-    const data = ${dataJson};
-    (function(data) {
-`;
+// 注入数据并移除 fetch 逻辑
+// 这里的正则会匹配从 fetch 开始到 .then(data => { 的所有内容
+const injection = `const data = ${dataJson}; (function(data) {`;
+html = html.replace(/fetch\('data\.json'\)[\s\S]+?\.then\(data => {/, injection);
 
-// 移除原有的 fetch 结构，直接执行逻辑
-html = html.replace(/fetch\('data\.json'\)\s*\.then\(res => res\.json\(\)\)\s*\.then\(data => \{/, injection);
-html = html.replace(/\}\)\s*\.catch\(err => console\.error\("Error loading data:", err\)\);/, '})(data);');
+// 修复结尾处的闭合
+html = html.replace(/\}\)\s+\.catch\(err => console\.error\("Error loading data:", err\)\);/, '})(data);');
 
-// 3. 提取脚本内容进行混淆
+// 混淆 JavaScript
 const scriptRegex = /<script>([\s\S]*?)<\/script>/;
 const match = html.match(scriptRegex);
-
 if (match && match[1]) {
-    const originalJs = match[1];
-    const obfuscatedJs = JavaScriptObfuscator.obfuscate(originalJs, {
+    const obfuscatedJs = JavaScriptObfuscator.obfuscate(match[1], {
         compact: true,
         controlFlowFlattening: true,
-        numbersToExpressions: true,
         stringArray: true,
-        stringArrayThreshold: 0.75,
-        unicodeEscapeSequence: true
+        stringArrayEncoding: ['base64'],
+        stringArrayThreshold: 1
     }).getObfuscatedCode();
-
-    html = html.replace(originalJs, obfuscatedJs);
+    html = html.replace(match[1], obfuscatedJs);
 }
 
-// 4. 保存为最终的 index.html
+// 输出到 dist 目录
 if (!fs.existsSync('dist')) fs.mkdirSync('dist');
 fs.writeFileSync('dist/index.html', html);
-// 复制图标文件到发布目录
-if (fs.existsSync('favicon.png')) {
-    fs.copyFileSync('favicon.png', 'dist/favicon.png');
-}
+if (fs.existsSync('favicon.png')) fs.copyFileSync('favicon.png', 'dist/favicon.png');
