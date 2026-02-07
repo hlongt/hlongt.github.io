@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Longtao Huang</title>
     <link rel="icon" href="favicon.png" type="image/png">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
@@ -14,16 +13,15 @@
         h1 { margin: 0; font-size: 2.2rem; }
         .affiliation { color: #666; font-size: 1.1rem; margin: 5px 0; }
         
-        /* 链接区域样式优化 */
         .links { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 20px; }
         .links a { color: #007bff; text-decoration: none; font-size: 0.95rem; font-weight: 500; display: flex; align-items: center; gap: 6px; }
         .links a:hover { text-decoration: underline; color: #0056b3; }
-        .links i { font-size: 1.1rem; color: #444; } /* 图标颜色稍深一点 */
+        .links i { font-size: 1.1rem; color: #444; }
 
         section { margin-top: 40px; }
         h2 { border-left: 5px solid #333; padding-left: 15px; font-size: 1.5rem; margin-bottom: 20px; }
         .item { margin-bottom: 10px; font-size: 1.05rem; }
-        footer { margin-top: 60px; font-size: 0.85rem; color: #999; text-align: center; }
+        footer { margin-top: 60px; font-size: 0.85rem; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
 </head>
 <body>
@@ -55,19 +53,19 @@
 </section>
 
 <footer>
-    <p>&copy; 2026 <span id="footer-name"></span>. Powered by GitHub Pages.</p>
+    <p id="copyright-display"></p>
 </footer>
 
 <script>
     fetch('data.json')
         .then(res => res.json())
         .then(data => {
+            // 1. 基础信息
             document.getElementById('name-display').textContent = `${data.name} (${data.englishName})`;
             document.getElementById('affiliation-display').textContent = data.affiliation;
             document.getElementById('bio-display').textContent = data.bio;
-            document.getElementById('footer-name').textContent = data.englishName;
 
-            // 联系链接逻辑 - 包含图标
+            // 2. 联系链接 (带图标)
             const linksContainer = document.getElementById('contact-links');
             let linksHtml = '';
             const isValid = (val) => val && val.trim() !== "" && val.trim() !== "#";
@@ -76,18 +74,17 @@
                 linksHtml += `<a href="mailto:${data.email.trim()}"><i class="fa-regular fa-envelope"></i> Email</a>`;
             }
             if (isValid(data.scholar)) {
-                linksHtml += `<a href="${data.scholar.trim()}" target="_blank"><i class="fa-gradcap fa-solid fa-graduation-cap"></i> Scholar</a>`;
+                linksHtml += `<a href="${data.scholar.trim()}" target="_blank"><i class="fa-solid fa-graduation-cap"></i> Scholar</a>`;
             }
             if (isValid(data.github)) {
                 linksHtml += `<a href="${data.github.trim()}" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>`;
             }
-            // 新增作品项
             if (isValid(data.project)) {
-                linksHtml += `<a href="${data.project.trim()}" target="_blank"><i class="fa-solid fa-code"></i> Project</a>`;
+                linksHtml += `<a href="${data.project.trim()}" target="_blank"><i class="fa-solid fa-code"></i> 作品</a>`;
             }
-            
             linksContainer.innerHTML = linksHtml;
 
+            // 3. 通用列表渲染
             const renderList = (items, listId, sectionId, htmlGenerator) => {
                 const section = document.getElementById(sectionId);
                 const list = document.getElementById(listId);
@@ -106,8 +103,14 @@
             renderList(data.education, 'edu-list', 'edu-section', (item) => `• ${item}`);
             renderList(data.publications, 'pub-list', 'pub-section', (pub) => `<strong>${pub.title}</strong><br>${pub.authors}<br><em>${pub.venue}</em>`);
             renderList(data.awards, 'award-list', 'award-section', (award) => `• ${award}`);
+
+            // 4. 页脚年份自动更新逻辑
+            const startYear = 2026;
+            const currentYear = new Date().getFullYear();
+            let yearDisplay = (currentYear > startYear) ? `${startYear}-${currentYear}` : startYear;
+            document.getElementById('copyright-display').innerHTML = `&copy; ${yearDisplay} ${data.name}. All Rights Reserved.`;
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error("Error loading data:", err));
 </script>
 
 </body>
