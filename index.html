@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人学术主页</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; background-color: #fff; }
+        header { margin-bottom: 40px; }
+        h1 { margin: 0; font-size: 2.2rem; }
+        .links { margin-top: 10px; }
+        .links a { margin-right: 15px; color: #007bff; text-decoration: none; font-size: 0.9rem; }
+        section { margin-top: 35px; }
+        h2 { border-bottom: 1px solid #eee; padding-bottom: 10px; color: #222; }
+        .item { margin-bottom: 15px; }
+        .pub-title { font-weight: bold; display: block; }
+        .pub-venue { color: #666; font-style: italic; }
+        footer { margin-top: 50px; font-size: 0.8rem; color: #999; text-align: center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 id="name">Loading...</h1>
+    <p id="affiliation"></p>
+    <div class="links" id="contact-links"></div>
+</header>
+
+<section>
+    <h2>简介 / Biography</h2>
+    <p id="bio"></p>
+</section>
+
+<section>
+    <h2>教育背景 / Education</h2>
+    <ul id="education-list"></ul>
+</section>
+
+<section>
+    <h2>发表论文 / Publications</h2>
+    <div id="pub-list"></div>
+</section>
+
+<footer>
+    <p>&copy; 2026 <span id="footer-name"></span>. Powered by GitHub Pages.</p>
+</footer>
+
+<script>
+    // 异步读取 JSON 数据的核心代码
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+            // 填充个人信息
+            document.getElementById('name').textContent = `${data.name} (${data.englishName})`;
+            document.getElementById('affiliation').textContent = data.affiliation;
+            document.getElementById('bio').textContent = data.bio;
+            document.getElementById('footer-name').textContent = data.englishName;
+
+            // 填充链接
+            const links = document.getElementById('contact-links');
+            links.innerHTML = `
+                <a href="mailto:${data.email}">Email</a>
+                <a href="${data.scholar}" target="_blank">Google Scholar</a>
+                <a href="${data.github}" target="_blank">GitHub</a>
+            `;
+
+            // 填充教育经历
+            const eduList = document.getElementById('education-list');
+            data.education.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                eduList.appendChild(li);
+            });
+
+            // 填充论文
+            const pubList = document.getElementById('pub-list');
+            data.publications.forEach(pub => {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.innerHTML = `
+                    <span class="pub-title">${pub.title}</span>
+                    <span>${pub.authors}</span><br>
+                    <span class="pub-venue">${pub.venue}</span>
+                    <a href="${pub.link}" target="_blank" style="font-size:0.8rem; color:#007bff;">[Link]</a>
+                `;
+                pubList.appendChild(div);
+            });
+        })
+        .catch(error => console.error('Error loading data:', error));
+</script>
+
+</body>
+</html>
