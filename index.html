@@ -3,90 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人学术主页</title>
+    <title>Longtao Huang</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; background-color: #fff; }
-        header { margin-bottom: 40px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        header { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
         h1 { margin: 0; font-size: 2.2rem; }
-        .links { margin-top: 10px; }
-        .links a { margin-right: 15px; color: #007bff; text-decoration: none; font-size: 0.9rem; }
-        section { margin-top: 35px; }
-        h2 { border-bottom: 1px solid #eee; padding-bottom: 10px; color: #222; }
+        .links a { margin-right: 15px; color: #007bff; text-decoration: none; font-size: 0.95rem; }
+        section { margin-top: 40px; }
+        h2 { border-left: 5px solid #333; padding-left: 15px; font-size: 1.5rem; margin-bottom: 20px; }
         .item { margin-bottom: 15px; }
-        .pub-title { font-weight: bold; display: block; }
-        .pub-venue { color: #666; font-style: italic; }
-        footer { margin-top: 50px; font-size: 0.8rem; color: #999; text-align: center; }
+        .item-title { font-weight: bold; display: block; }
+        footer { margin-top: 60px; font-size: 0.85rem; color: #999; text-align: center; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1 id="name">Loading...</h1>
-    <p id="affiliation"></p>
+<header id="header-section">
+    <h1 id="name-display">Loading...</h1>
+    <p id="affiliation-display" style="color: #666;"></p>
     <div class="links" id="contact-links"></div>
 </header>
 
-<section>
-    <h2>简介 / Biography</h2>
-    <p id="bio"></p>
+<section id="bio-section">
+    <h2>关于我 / Biography</h2>
+    <p id="bio-display"></p>
 </section>
 
-<section>
+<section id="edu-section">
     <h2>教育背景 / Education</h2>
-    <ul id="education-list"></ul>
+    <div id="edu-list"></div>
 </section>
 
-<section>
+<section id="pub-section">
     <h2>发表论文 / Publications</h2>
     <div id="pub-list"></div>
 </section>
 
+<section id="award-section">
+    <h2>获奖情况 / Awards</h2>
+    <div id="award-list"></div>
+</section>
+
 <footer>
-    <p>&copy; 2026 <span id="footer-name"></span>. Powered by GitHub Pages.</p>
+    <p>&copy; 2026 <span id="footer-name"></span>. Last updated: Feb 2026.</p>
 </footer>
 
 <script>
-    // 异步读取 JSON 数据的核心代码
     fetch('data.json')
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-            // 填充个人信息
-            document.getElementById('name').textContent = `${data.name} (${data.englishName})`;
-            document.getElementById('affiliation').textContent = data.affiliation;
-            document.getElementById('bio').textContent = data.bio;
-            document.getElementById('footer-name').textContent = data.englishName;
+            // 1. 基础文字渲染（如果不填则显示默认值）
+            document.getElementById('name-display').textContent = data.name || "My Name";
+            document.getElementById('affiliation-display').textContent = data.affiliation || "";
+            document.getElementById('footer-name').textContent = data.englishName || data.name;
 
-            // 填充链接
+            // 2. 联系方式（如果有链接才显示）
             const links = document.getElementById('contact-links');
-            links.innerHTML = `
-                <a href="mailto:${data.email}">Email</a>
-                <a href="${data.scholar}" target="_blank">Google Scholar</a>
-                <a href="${data.github}" target="_blank">GitHub</a>
-            `;
+            let linksHtml = '';
+            if(data.email) linksHtml += `<a href="mailto:${data.email}">Email</a>`;
+            if(data.scholar) linksHtml += `<a href="${data.scholar}" target="_blank">Google Scholar</a>`;
+            if(data.github) linksHtml += `<a href="${data.github}" target="_blank">GitHub</a>`;
+            links.innerHTML = linksHtml;
 
-            // 填充教育经历
-            const eduList = document.getElementById('education-list');
-            data.education.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = item;
-                eduList.appendChild(li);
-            });
+            // 3. 通用渲染函数：renderSection(数据数组, 列表容器ID, 章节ID, 渲染逻辑)
+            const renderSection = (items, listId, sectionId, htmlGenerator) => {
+                const section = document.getElementById(sectionId);
+                const list = document.getElementById(listId);
+                
+                if (items && items.length > 0) {
+                    items.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'item';
+                        div.innerHTML = htmlGenerator(item);
+                        list.appendChild(div);
+                    });
+                } else {
+                    section.style.display = 'none'; // 数据为空，直接隐藏整个板块
+                }
+            };
 
-            // 填充论文
-            const pubList = document.getElementById('pub-list');
-            data.publications.forEach(pub => {
-                const div = document.createElement('div');
-                div.className = 'item';
-                div.innerHTML = `
-                    <span class="pub-title">${pub.title}</span>
-                    <span>${pub.authors}</span><br>
-                    <span class="pub-venue">${pub.venue}</span>
-                    <a href="${pub.link}" target="_blank" style="font-size:0.8rem; color:#007bff;">[Link]</a>
-                `;
-                pubList.appendChild(div);
-            });
+            // 渲染“关于我”（单独逻辑）
+            if(!data.bio) document.getElementById('bio-section').style.display = 'none';
+            else document.getElementById('bio-display').textContent = data.bio;
+
+            // 渲染教育背景
+            renderSection(data.education, 'edu-list', 'edu-section', (edu) => `
+                <span class="item-title">${edu.school}</span>
+                <span>${edu.degree} (${edu.time})</span>
+            `);
+
+            // 渲染论文
+            renderSection(data.publications, 'pub-list', 'pub-section', (pub) => `
+                <span class="item-title">${pub.title}</span>
+                <span>${pub.authors}</span><br>
+                <em style="color:#666">${pub.venue}</em> 
+                ${pub.link !== "#" ? `<a href="${pub.link}" target="_blank" style="color:#007bff; font-size:0.8rem">[Link]</a>` : ''}
+            `);
+
+            // 渲染获奖情况
+            renderSection(data.awards, 'award-list', 'award-section', (award) => `
+                <span>• ${award}</span>
+            `);
+
         })
-        .catch(error => console.error('Error loading data:', error));
+        .catch(err => console.error("数据加载失败:", err));
 </script>
 
 </body>
