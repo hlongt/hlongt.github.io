@@ -1177,7 +1177,7 @@
             currentGreetingParticles = targetParticles;
             scheduleGreetingTransition();
           });
-        }, 5000);
+        }, 4000);
       }
 
       const smileVariants = [
@@ -1199,12 +1199,12 @@
         animateParticleTransition(heroSmileCanvas, currentParticles, targetParticles, () => {
           currentParticles = targetParticles;
           currentSmile = nextSmile;
-          window.setTimeout(() => animateSmileTo((currentSmile + 1) % smileVariants.length), 5000);
+          window.setTimeout(() => animateSmileTo((currentSmile + 1) % smileVariants.length), 4000);
         });
       }
 
       scheduleGreetingTransition();
-      window.setTimeout(() => animateSmileTo(1), 5000);
+      window.setTimeout(() => animateSmileTo(1), 4000);
 
       wechatToggle.addEventListener("click", () => {
         clearTimeout(wechatToggle.resetTimer);
